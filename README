@@ -1,0 +1,10 @@
+1. Go to https://fortnitedb.com/en/profile/you/schematics
+2. Copy/Paste source into schematics.html
+3. Run main.py
+
+Output:
+
+```
+Bobcat|Assault|Legendary|+20 Critical Rating|+90% Crit Damage|Element: Energy and +10% Damage|+90% Crit Damage|+30% Damage to slowed and snared targets.|Damage dealt with this weapon snares the target by 30% for 6 seconds.
+Siegebreaker|Assault|Legendary|+68% Crit Damage|+15% Damage|Element: Energy and +5% Damage|+25 Critical Rating|+30% Damage to afflicted targets|Causes Affliction damage for 6 seconds.
+```
