@@ -1,5 +1,6 @@
 import json
 from dataclasses import dataclass
+from json import JSONDecodeError
 from typing import List
 
 from bs4 import BeautifulSoup
@@ -26,7 +27,11 @@ def load_schematics(file) -> List[Schematic]:
         rarity = schematic.get('data-rarity')
         stars = schematic.get('data-stars')
         perks = schematic.get('data-perks')
-        perks_descriptions = deserialize_perks(perks)
+        try:
+            perks_descriptions = deserialize_perks(perks)
+        except JSONDecodeError as e:
+            print(name)
+            raise e
         schematic_type = schematic.get('data-type')
         material = schematic.get('data-material')
 
@@ -44,6 +49,8 @@ def load_schematics(file) -> List[Schematic]:
 
 def parse_schematics(file):
     html = read_schematics(file)
+    html = html.replace("&quoquot;", "&quot;")
+    html = html.replace("&qquot;", "&quot;")
     soup = BeautifulSoup(html, 'html.parser')
 
     return soup
@@ -58,15 +65,21 @@ def read_schematics(file: str):
 
 
 def deserialize_perks(perks) -> List[str]:
-    data = json.loads(perks)
-    perks = [d['d'] for d in data]
-    return perks
+    try:
+        data = json.loads(perks)
+        perks = [d['d'] for d in data]
+        return perks
+    except JSONDecodeError as e:
+        print(perks)
+        raise e
 
 
 def print_schematics(schematics: List[Schematic]):
     for schematic in schematics:
         perks = "|".join(schematic.perks)
         print(f"{schematic.name}|{schematic.schematic_type}|{schematic.rarity}|{perks}")
+        # perks = "\t".join(schematic.perks)
+        # print(f"{schematic.name}\t{schematic.schematic_type}\t{schematic.rarity}\t{perks}")
 
 
 def main():
