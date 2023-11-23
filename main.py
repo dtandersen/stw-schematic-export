@@ -27,6 +27,7 @@ def load_schematics(file) -> List[Schematic]:
         rarity = schematic.get('data-rarity')
         stars = schematic.get('data-stars')
         perks = schematic.get('data-perks')
+
         try:
             perks_descriptions = deserialize_perks(perks)
         except JSONDecodeError as e:
@@ -67,7 +68,7 @@ def read_schematics(file: str):
 def deserialize_perks(perks) -> List[str]:
     try:
         data = json.loads(perks)
-        perks = [d['d'] for d in data]
+        perks = [d['n'] for d in data]
         return perks
     except JSONDecodeError as e:
         print(perks)
